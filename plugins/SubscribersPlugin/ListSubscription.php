@@ -118,9 +118,10 @@ class ListSubscription
 
         $title = $this->translator->s('List subscription');
         $r = htmlspecialchars($result);
-        $preferencesUrl = htmlspecialchars(getConfig('preferencesurl') . "&uid=$uid");
+        $website = getConfig('website');
+        $preferencesUrl = htmlspecialchars("https://$website/?p=subscribe&pi=SubscribersPlugin&uid=$uid&list=3");
         $preferences = $this->translator->s(
-            'To change your details and to choose which lists to be subscribed to, visit your <a href="%s">preferences</a> page.',
+            'If you want to subscribe this list again, visit <a href="%s">Subscribe to this list</a>.',
             $preferencesUrl
         );
 
