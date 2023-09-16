@@ -56,7 +56,7 @@ class ListSubscription
             addUserHistory(
                 $email,
                 'Added to list',
-                "Added to list '$listName'"
+                "Added to list `$listName`"
             );
         } else {
             $body = $this->translator->s('Subscriber %s already belongs to list %s', $email, $listName);
@@ -89,16 +89,18 @@ class ListSubscription
         $userId = $row['id'];
         $email = $row['email'];
         $removed = array();
+        $listId = 0;  // AS: used for storing a listId in the loop below
 
         foreach ($this->dao->listsForSubscriberMessage($userId, $mid) as $row) {
             $count = $this->dao->removeSubscriberFromList($userId, $row['listid']);
 
             if ($count > 0) {
                 $removed[] = $row['name'];
+                $listId = $row['listid'];  // AS: store the last processed listId in the remove loop, so that this list can be used for the re-subscribe link
                 addUserHistory(
                     $email,
                     'Removed from list',
-                    "Removed from list {$row['listid']} '{$row['name']}' through campaign $mid"
+                    "Removed from list {$row['listid']} ({$row['name']}) through campaign $mid"
                 );
             }
         }
@@ -109,21 +111,26 @@ class ListSubscription
         } else {
             $result = $this->translator->s('Subscriber %s has not been removed from any lists', $email);
         }
-        $this->displayResultPage($result, $uid);
+        $this->displayResultPage($result, $uid, $listId);  // AS: Added the listId
     }
 
-    private function displayResultPage($result, $uid = '')
+    private function displayResultPage($result, $uid = '', $listId = 0)
     {
         global $pagedata, $PoweredBy;
 
         $title = $this->translator->s('List subscription');
         $r = htmlspecialchars($result);
         $website = getConfig('website');
-        $preferencesUrl = htmlspecialchars("https://$website/?p=subscribe&pi=SubscribersPlugin&uid=$uid&list=3");
-        $preferences = $this->translator->s(
-            'If you want to subscribe this list again, visit <a href="%s">Subscribe to this list</a>.',
-            $preferencesUrl
-        );
+        // AS changed the link to the preferences page into a link for re-subscribing the list,
+        //  show only, when a listId is given
+        if ($listId > 0)
+        {
+            $preferencesUrl = htmlspecialchars("https://$website/?p=subscribe&pi=SubscribersPlugin&uid=$uid&list=$listId");
+            $preferences = $this->translator->s(
+                'If you want to subscribe this list again, visit <a href="%s">Subscribe to this list</a>.',
+                $preferencesUrl
+            );
+        }
 
         echo <<<END
     <title>$title</title>
