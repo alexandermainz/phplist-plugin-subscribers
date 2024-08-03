@@ -1,5 +1,8 @@
 <?php
-/**
+
+namespace phpList\plugin\SubscribersPlugin;
+
+/*
  * SubscribersPlugin for phplist.
  *
  * This file is a part of SubscribersPlugin.
@@ -20,30 +23,15 @@
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
  */
 
-/**
- * This is the HTML template for the plugin page.
+/*
+ * This is the entry code invoked by phplist.
  *
  * @category  phplist
  */
+if (!\phplistPlugin::isEnabled('CommonPlugin')) {
+    echo 'phplist-plugin-common must be installed and enabled to use this plugin';
 
-/**
- * Available fields
- * - $form: optional raw HTML for attribute search/select form
- * - $listing: raw HTML output of Listing.
- */
-?>
-<div>
-    <hr/>
-<?php echo $toolbar; ?>
-    <div style='padding-top: 10px;'>
-<?php echo $form; ?>
-    </div>
-    <div style='text-align: right;'>
-<?php echo $command_link; ?>
-    </div>
-    <div style='padding-top: 10px;'>
-<?php echo $listing; ?>
-<?php echo $command_link; ?>
-    </div>
-        <p><a href='#top'>[<?php echo s('top') ?>]</a></p>
-</div>
+    return;
+}
+
+\phpList\plugin\Common\Main::run(new ControllerFactory());

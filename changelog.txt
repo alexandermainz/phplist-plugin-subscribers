@@ -1,3 +1,28 @@
+version 2.38.0+20240520
+      Add menu item to run the subscriber history report
+
+version 2.37.3+20240215
+      Use ListTrait trait in Common plugin for the listuser table
+
+version 2.37.2+20240209
+      Ensure entered field is set when moving subscriber between lists
+      Don't update modified because it is updated automatically
+
+version 2.37.1+20231212
+      Remove unnecessary parameter to queryOne() and queryColumn()
+      Avoid php warning about return type
+      Use namespaced names for Common plugin classes instead of PEAR names
+
+version 2.37.0+20230912
+Adolfo M. Cagigal (1):
+      Add Spanish translations
+
+      Bring English translation file up to date
+      Use s() function for translations in Common Plugin
+
+version 2.36.3+20230906
+      Use publicUrl() function
+
 version 2.36.2+20230821
       Use publicBaseUrl() function
 

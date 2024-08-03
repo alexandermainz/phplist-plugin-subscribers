@@ -25,7 +25,7 @@
  *
  * @category  phplist
  */
-use function phpList\plugin\Common\publicBaseUrl;
+use function phpList\plugin\Common\publicUrl;
 
 class SubscribersPlugin extends phplistPlugin
 {
@@ -42,7 +42,6 @@ class SubscribersPlugin extends phplistPlugin
      */
     private $subscribeLinkText;
     private $unsubscribeLinkText;
-    private $rootUrl;
     private $attributes;
 
     /*
@@ -56,6 +55,7 @@ class SubscribersPlugin extends phplistPlugin
         'details' => array('category' => 'subscribers'),
         'command' => array('category' => 'subscribers'),
         'reports' => array('category' => 'subscribers'),
+        'history' => array('category' => 'subscribers'),
     );
     public $publicPages = array(self::LISTSUBSCRIBE_PAGE, self::UNSUBSCRIBE_PAGE);
     public $remotePages = [self::IMPORT2_PAGE];
@@ -79,7 +79,7 @@ class SubscribersPlugin extends phplistPlugin
             'list' => $listId,
         );
 
-        return $this->rootUrl . '?' . http_build_query($params, '', '&');
+        return publicUrl($params);
     }
 
     private function unsubscribeUrl($messageid, $uid)
@@ -91,7 +91,7 @@ class SubscribersPlugin extends phplistPlugin
             'm' => $messageid,
         );
 
-        return $this->rootUrl . '?' . http_build_query($params, '', '&');
+        return publicUrl($params);
     }
 
     /**
@@ -193,16 +193,16 @@ class SubscribersPlugin extends phplistPlugin
      */
     public function activate()
     {
-        $i18n = new CommonPlugin_I18N($this);
+        $i18n = new phpList\plugin\Common\I18N($this);
         $this->pageTitles = array(
             'details' => $i18n->get('Advanced search'),
             'command' => $i18n->get('Subscriber commands'),
             'reports' => $i18n->get('Subscriber reports'),
+            'history' => $i18n->get('Subscriber history'),
         );
         $this->subscribeLinkText = getConfig('subscribers_subscribelinktext');
         $this->unsubscribeLinkText = getConfig('subscribers_linktext');
         $this->attributes = stripslashes(getConfig('subscribers_attributes'));
-        $this->rootUrl = publicBaseUrl() . '/';
 
         parent::activate();
     }
@@ -218,9 +218,9 @@ class SubscribersPlugin extends phplistPlugin
 
         return array(
             'phpList version 3.3.2 or later' => version_compare(VERSION, '3.3.2') >= 0,
-            'Common Plugin version 3.29.0 or later installed' => (
+            'Common Plugin version 3.33.0 or later installed' => (
                 phpListPlugin::isEnabled('CommonPlugin')
-                && version_compare($plugins['CommonPlugin']->version, '3.29.0') >= 0
+                && version_compare($plugins['CommonPlugin']->version, '3.33.0') >= 0
             ),
             'PHP version 7 or greater' => version_compare(PHP_VERSION, '7') > 0,
         );

@@ -5,9 +5,9 @@
 The plugin adds pages to the Subscribers menu:
 
 * advanced search - search for subscribers and show subscriber attributes with confirmed and blacklisted status
-* subscriber history - shows history events: all, since a start date or those containing specific text
-* subscriptions - lists the number of subscriptions and unsubscriptions for each month with a chart showing the data graphically
 * subscriber commands - apply a command to a file or group of subcriber email addresses
+* subscriber reports - various reports on subscribers
+* subscriber history - shows subscriber history events: all, since a start date or those containing specific text
 
 The plugin also provides a placeholder [LISTUNSUBSCRIBE] to remove a subscriber from the list to which the campaign was sent.
 
@@ -17,7 +17,7 @@ The plugin also provides a placeholder [LISTUNSUBSCRIBE] to remove a subscriber 
 
 This plugin requires phplist 3.3.2 or later and php version 7 or later.
 
-It also requires the Common Plugin version 3.29.0 or later to be installed.
+It also requires the Common Plugin version 3.29.1 or later to be installed.
 phplist now includes Common Plugin so you should need only to enable it on the Manage Plugins page.
 
 ### Install through phplist ###
@@ -45,6 +45,12 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.38.0+20240520 Add menu item to run the subscriber history report
+    2.37.3+20240215 Use ListTrait trait in Common plugin for the listuser table
+    2.37.2+20240209 Fix error in query moving subscriber between lists
+    2.37.1+20231212 Minor internal changes
+    2.37.0+20230912 Add Spanish translations, thanks to Adolfo M. Cagigal
+    2.36.3+20230906 Use publicUrl() function
     2.36.2+20230821 Use publicBaseUrl() function
     2.36.1+20230726 Correct processing when search term is a regex
     2.36.0+20230725 Treat search term as a regexp or literal text
